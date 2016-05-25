@@ -617,6 +617,12 @@ module XCPretty
       end
     end
 
+    context "T23 console output" do
+      it 'parses t23 console outputs' do
+        @formatter.should receive(:format_t23_output).with("T23: TEST 123")
+        @parser.parse("T23: TEST 123")
+      end
+    end
+
   end
 end
-

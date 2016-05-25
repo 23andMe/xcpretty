@@ -38,6 +38,9 @@ OptionParser.new do |opts|
   opts.on('--tap', 'Use TAP output') do
     printer_opts[:formatter] = XCPretty::TestAnything
   end
+  opts.on('-t23', '--t23Formatter', 'Use t23 output') do
+    printer_opts[:formatter] = XCPretty::T23Formatter
+  end
   opts.on('-f', '--formatter PATH', 'Use formatter returned from evaluating the specified Ruby file') do |path|
     printer_opts[:formatter] = XCPretty.load_custom_class(path)
   end

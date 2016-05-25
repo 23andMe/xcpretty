@@ -9,6 +9,7 @@ module XCPretty
   module FormatMethods
     EMPTY = ''.freeze
 
+    def format_t23_output(text);                               EMPTY; end
     def format_analyze(file_name, file_path);                  EMPTY; end
     def format_build_target(target, project, configuration);   EMPTY; end
     def format_aggregate_target(target, project, configuration); EMPTY; end
