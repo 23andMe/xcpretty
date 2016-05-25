@@ -146,5 +146,14 @@ UI spec
 #{@formatter.red(SAMPLE_EXECUTED_TESTS)})
     end
   end
-end
 
+  describe T23Formatter do
+    before(:each) do
+      @formatter = T23Formatter.new(true, true)
+    end
+
+    it "formats T23 console output" do
+      @formatter.format_t23_output("T23: Test 123").should == "         Test 123"
+    end
+  end
+end
