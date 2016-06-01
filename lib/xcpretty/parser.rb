@@ -3,6 +3,9 @@
 module XCPretty
 
   module Matchers
+    T23_CONSOLE_OUTPUT_PREFIX = "T23:"
+
+    T23_MATCHER = /#{T23_CONSOLE_OUTPUT_PREFIX}*/
 
     # @regex Captured groups
     # $1 file_path
@@ -283,6 +286,8 @@ module XCPretty
       return format_duplicate_symbols if should_format_duplicate_symbols?
 
       case text
+      when T23_MATCHER
+        formatter.format_t23_output(text)
       when ANALYZE_MATCHER
         formatter.format_analyze($2, $1)
       when BUILD_TARGET_MATCHER
