@@ -32,7 +32,7 @@ module XCPretty
     def format_passing_test(suite, test, time);                EMPTY; end
     def format_pending_test(suite, test);                      EMPTY; end
     def format_measuring_test(suite, test, time);              EMPTY; end
-    def format_failing_test(suite, test, time, file_path);     EMPTY; end
+    def format_failing_test(suite, test, reason, file_path);   EMPTY; end
     def format_process_pch(file);                              EMPTY; end
     def format_process_pch_command(file_path);                 EMPTY; end
     def format_phase_success(phase_name);                      EMPTY; end
@@ -149,6 +149,10 @@ module XCPretty
         "> #{file_paths.map { |path| path.split('/').last }.join("\n> ")}\n"
     end
 
+    def format_will_not_be_code_signed(message)
+      "#{yellow(warning_symbol + " " + message)}"
+    end
+
 
     private
 
@@ -163,10 +167,19 @@ module XCPretty
     end
 
     def format_failure(f)
-      "  #{f[:test_case]}, #{red(f[:reason])}\n  #{cyan(f[:file_path])}\n" \
-      "  ```\n" +
-      Syntax.highlight(Snippet.from_filepath(f[:file_path])) +
-      "  ```"
+      snippet = Snippet.from_filepath(f[:file_path])
+      output = "  #{f[:test_case]}, #{red(f[:reason])}"
+      return output if snippet.contents.empty?
+
+      output += "\n  #{cyan(f[:file_path])}\n  ```\n"
+      if @colorize
+        output += Syntax.highlight(snippet)
+      else
+        output += snippet.contents
+      end
+
+      output += "  ```"
+      output
     end
 
     def error_symbol

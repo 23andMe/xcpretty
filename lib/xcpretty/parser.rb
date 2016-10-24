@@ -10,7 +10,7 @@ module XCPretty
     # @regex Captured groups
     # $1 file_path
     # $2 file_name
-    ANALYZE_MATCHER = /^Analyze(?:Shallow)?\s(.*\/(.*\.m))*/
+    ANALYZE_MATCHER = /^Analyze(?:Shallow)?\s(.*\/(.*\.(?:m|mm|cc|cpp|c|cxx)))\s*/
 
     # @regex Captured groups
     # $1 target
@@ -63,7 +63,7 @@ module XCPretty
     # @regex Captured groups
     # $1 compiler_command
     # $2 file_path
-    COMPILE_COMMAND_MATCHER = /^\s*(.*\/usr\/bin\/clang\s.*\s\-c\s(.*\.(?:m|mm|c|cc|cpp|cxx))\s.*\.o)$/
+    COMPILE_COMMAND_MATCHER = /^\s*(.*\/bin\/clang\s.*\s\-c\s(.*\.(?:m|mm|c|cc|cpp|cxx))\s.*\.o)$/
 
     # @regex Captured groups
     # $1 file_path
@@ -104,6 +104,11 @@ module XCPretty
     FAILING_TEST_MATCHER = /^\s*(.+:\d+):\serror:\s[\+\-]\[(.*)\s(.*)\]\s:(?:\s'.*'\s\[FAILED\],)?\s(.*)/
 
     # @regex Captured groups
+    # $1 = file
+    # $2 = reason
+    UI_FAILING_TEST_MATCHER = /^\s{4}t = \s+\d+\.\d+s\s+Assertion Failure: (.*:\d+): (.*)$/
+
+    # @regex Captured groups
     # $1 = dsym
     GENERATE_DSYM_MATCHER = /^GenerateDSYMFile \/.*\/(.*\.dSYM)/
 
@@ -115,24 +120,30 @@ module XCPretty
     # $1 = target
     # $2 = build_variants (normal, profile, debug)
     # $3 = architecture
-    LINKING_MATCHER = /^Ld \/.*\/(.*) (.*) (.*)$/
+    LINKING_MATCHER = /^Ld \/?.*\/(.*?) (.*) (.*)$/
 
     # @regex Captured groups
     # $1 = suite
     # $2 = test_case
     # $3 = time
-    PASSING_TEST_MATCHER = /^\s*Test Case\s'-\[(.*)\s(.*)\]'\spassed\s\((\d*\.\d{3})\sseconds\)/
+    TEST_CASE_PASSED_MATCHER = /^\s*Test Case\s'-\[(.*)\s(.*)\]'\spassed\s\((\d*\.\d{3})\sseconds\)/
+
 
     # @regex Captured groups
     # $1 = suite
     # $2 = test_case
-    PENDING_TEST_MATCHER = /^Test Case\s'-\[(.*)\s(.*)PENDING\]'\spassed/
+    TEST_CASE_STARTED_MATCHER = /^Test Case '-\[(.*) (.*)\]' started.$/
+
+    # @regex Captured groups
+    # $1 = suite
+    # $2 = test_case
+    TEST_CASE_PENDING_MATCHER = /^Test Case\s'-\[(.*)\s(.*)PENDING\]'\spassed/
 
     # @regex Captured groups
     # $1 = suite
     # $2 = test_case
     # $3 = time
-    MEASURING_TEST_MATCHER = /^[^:]*:[^:]*:\sTest Case\s'-\[(.*)\s(.*)\]'\smeasured\s\[Time,\sseconds\]\saverage:\s(\d*\.\d{3}),/
+    TEST_CASE_MEASURED_MATCHER = /^[^:]*:[^:]*:\sTest Case\s'-\[(.*)\s(.*)\]'\smeasured\s\[Time,\sseconds\]\saverage:\s(\d*\.\d{3}),/
 
     PHASE_SUCCESS_MATCHER = /^\*\*\s(.*)\sSUCCEEDED\s\*\*/
 
@@ -168,7 +179,7 @@ module XCPretty
     # @regex Captured groups
     # $1 = suite
     # $2 = time
-    TESTS_RUN_START_MATCHER = /^\s*Test Suite '(?:.*\/)?(.*[ox]ctest.*)' started at(.*)/
+    TEST_SUITE_STARTED_MATCHER = /^\s*Test Suite '(?:.*\/)?(.*[ox]ctest.*)' started at(.*)/
 
     # @regex Captured groups
     # $1 test suite name
@@ -203,6 +214,10 @@ module XCPretty
       # @regex Captured groups
       # $1 = whole warning
       GENERIC_WARNING_MATCHER = /^warning:\s(.*)$/
+
+      # @regex Captured groups
+      # $1 = whole warning
+      WILL_NOT_BE_CODE_SIGNED_MATCHER = /^(.* will not be code signed because .*)$/
     end
 
     module Errors
@@ -215,6 +230,10 @@ module XCPretty
       CODESIGN_ERROR_MATCHER = /^(Code\s?Sign error:.*)$/
 
       # @regex Captured groups
+      # $1 = whole error
+      CODE_SIGNING_REQUIRED_MATCHER = /^(Code signing is required for product type .* in SDK .*)$/
+
+      # @regex Captured groups
       # $1 = file_path
       # $2 = file_name
       # $3 = reason
@@ -223,6 +242,10 @@ module XCPretty
       # @regex Captured groups
       # $1 cursor (with whitespaces and tildes)
       CURSOR_MATCHER = /^([\s~]*\^[\s~]*)$/
+
+      # @regex Captured groups
+      # $1 = whole message
+      PROFILE_DOESNT_SUPPORT_OR_INCLUDE = /^(Provisioning profile .* doesn't .*)$/
 
       # @regex Captured groups
       # $1 = whole error.
@@ -312,6 +335,8 @@ module XCPretty
         formatter.format_codesign($1)
       when CODESIGN_ERROR_MATCHER
         formatter.format_error($1)
+      when CODE_SIGNING_REQUIRED_MATCHER
+        formatter.format_error($1)
       when COMPILE_MATCHER
         formatter.format_compile($2, $1)
       when COMPILE_COMMAND_MATCHER
@@ -326,8 +351,12 @@ module XCPretty
         formatter.format_copy_plist_file($1, $2)
       when CPRESOURCE_MATCHER
         formatter.format_cpresource($1)
+      when PROFILE_DOESNT_SUPPORT_OR_INCLUDE
+        formatter.format_error($1)
       when EXECUTED_MATCHER
         format_summary_if_needed(text)
+      when UI_FAILING_TEST_MATCHER
+        formatter.format_failing_test(@test_suite, @test_case, $2, $1)
       when FAILING_TEST_MATCHER
         formatter.format_failing_test($2, $3, $4, $1)
       when FATAL_ERROR_MATCHER
@@ -344,11 +373,11 @@ module XCPretty
         formatter.format_libtool($1)
       when LINKING_MATCHER
         formatter.format_linking($1, $2, $3)
-      when MEASURING_TEST_MATCHER
+      when TEST_CASE_MEASURED_MATCHER
         formatter.format_measuring_test($1, $2, $3)
-      when PENDING_TEST_MATCHER
+      when TEST_CASE_PENDING_MATCHER
         formatter.format_pending_test($1, $2)
-      when PASSING_TEST_MATCHER
+      when TEST_CASE_PASSED_MATCHER
         formatter.format_passing_test($1, $2, $3)
       when PODS_ERROR_MATCHER
         formatter.format_error($1)
@@ -368,7 +397,7 @@ module XCPretty
         formatter.format_pbxcp($1)
       when TESTS_RUN_COMPLETION_MATCHER
         formatter.format_test_run_finished($1, $3)
-      when TESTS_RUN_START_MATCHER
+      when TEST_SUITE_STARTED_MATCHER
         formatter.format_test_run_started($1)
       when TEST_SUITE_START_MATCHER
         formatter.format_test_suite_started($1)
@@ -384,6 +413,8 @@ module XCPretty
         formatter.format_shell_command($1, $2)
       when GENERIC_WARNING_MATCHER
         formatter.format_warning($1)
+      when WILL_NOT_BE_CODE_SIGNED_MATCHER
+        formatter.format_will_not_be_code_signed($1)
       else
         ""
       end
@@ -393,14 +424,19 @@ module XCPretty
 
     def update_test_state(text)
       case text
-      when TESTS_RUN_START_MATCHER
+      when TEST_SUITE_STARTED_MATCHER
         @tests_done = false
         @formatted_summary = false
         @failures = {}
+      when TEST_CASE_STARTED_MATCHER
+        @test_suite = $1
+        @test_case = $2
       when TESTS_RUN_COMPLETION_MATCHER
         @tests_done = true
       when FAILING_TEST_MATCHER
-        store_failure($1, $2, $3, $4)
+        store_failure(file: $1, test_suite: $2, test_case: $3, reason: $4)
+      when UI_FAILING_TEST_MATCHER
+        store_failure(file: $1, test_suite: @test_suite, test_case: @test_case, reason: $2)
       end
     end
 
@@ -518,7 +554,7 @@ module XCPretty
       @formatting_linker_failure = false
     end
 
-    def store_failure(file, test_suite, test_case, reason)
+    def store_failure(file: nil, test_suite: nil, test_case: nil, reason: nil)
       failures_per_suite[test_suite] ||= []
       failures_per_suite[test_suite] << {
         file_path: file,

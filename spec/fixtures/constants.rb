@@ -17,6 +17,36 @@ SAMPLE_KIWI_SUITE_COMPLETION = "Test Suite 'All tests' finished at 2013-12-08 04
 SAMPLE_OCUNIT_SUITE_COMPLETION = "Test Suite '/Users/musalj/Library/Developer/Xcode/DerivedData/ReactiveCocoa-eznxkbqvgfsnrvetemqloysuwagb/Build/Products/Test/ReactiveCocoaTests.octest(Tests)' finished at 2013-12-08 22:09:37 +0000."
 SAMPLE_XCTEST_SUITE_COMPLETION = "Test Suite 'ObjectiveSugarTests.xctest' finished at 2013-12-09 04:42:13 +0000."
 
+SAMPLE_UITEST_CASE_WITH_FAILURE = %Q(\
+Test Case '-[viewUITests.vmtAboutWindow testConnectToDesktop]' started.
+    t =     0.00s     Start Test at 2016-08-18 09:07:17.822
+    t =     0.00s     Set Up
+    t =     0.00s         Launch com.vmware.horizon
+    t =     1.38s             Wait for app to idle
+Wait for connect to desktop done
+    t =    19.06s     Snapshot accessibility hierarchy for com.vmware.horizon
+    t =    20.31s     Find: Descendants matching type Window
+    t =    20.32s     Find: Elements matching predicate '"rdsh1" IN identifiers'
+Connect to desktop done
+    t =    20.32s     Click "Disconnect" Button
+    t =    20.32s         Wait for app to idle
+    t =    20.39s         Find the "Disconnect" Button
+    t =    20.39s             Snapshot accessibility hierarchy for com.vmware.horizon
+    t =    20.53s             Find: Descendants matching type Window
+    t =    20.53s             Find: Elements matching predicate '"rdsh1" IN identifiers'
+    t =    21.54s             Find the "Disconnect" Button (retry 1)
+    t =    21.54s                 Snapshot accessibility hierarchy for com.vmware.horizon
+    t =    21.80s                 Find: Descendants matching type Window
+    t =    21.80s                 Find: Elements matching predicate '"rdsh1" IN identifiers'
+    t =    21.81s                 Find: Descendants matching type Toolbar
+    t =    21.81s                 Find: Descendants matching type Button
+    t =    21.81s                 Find: Elements matching predicate '"Disconnect" IN identifiers'
+    t =    21.81s         Synthesize event
+    t =    22.27s             Assertion Failure: <unknown>:0: UI Testing Failure - Unable to find hit point for element Button 0x608001165880: {{74.0, -54.0}, {44.0, 38.0}}, label: 'Disconnect'
+    t =    22.29s     Tear Down
+Test Case '-[viewUITests.vmtAboutWindow testConnectToDesktop]' failed (22.490 seconds).
+)
+SAMPLE_XCTEST_FAILURE = ""
 SAMPLE_KIWI_FAILURE = "/Users/musalj/code/OSS/ObjectiveSugar/Example/ObjectiveSugarTests/NSNumberTests.m:49: error: -[NumberAdditions Iterators_TimesIteratesTheExactNumberOfTimes] : 'Iterators, times： iterates the exact number of times' [FAILED], expected subject to equal 4, got 5"
 SAMPLE_OLD_SPECTA_FAILURE = "/Users/musalj/code/OSS/ReactiveCocoa/ReactiveCocoaFramework/ReactiveCocoaTests/RACCommandSpec.m:458: error: -[RACCommandSpec enabled_signal_should_send_YES_while_executing_is_YES_and_allowsConcurrentExecution_is_YES] : expected: 1, got: 0"
 SAMPLE_SPECTA_FAILURE = "         Test Case '-[SKWelcomeViewControllerSpecSpec SKWelcomeViewController_When_a_user_opens_the_app_from_a_clean_installation_displays_the_welcome_screen]' started. \n/Users/vickeryj/Code/ipad-register/KIFTests/Specs/SKWelcomeViewControllerSpec.m:11: error: -[SKWelcomeViewControllerSpecSpec SKWelcomeViewController_When_a_user_opens_the_app_from_a_clean_installation_displays_the_welcome_screen] : The step timed out after 2.00 seconds: Failed to find accessibility element with the label \"The asimplest way to make smarter business decisions\""
@@ -105,6 +135,13 @@ Ld /Users/musalj/Library/Developer/Xcode/DerivedData/ObjectiveSugar-ayzdhqmmwtqg
     setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/musalj/code/go/bin:/Users/musalj/.rbenv/shims:/Users/musalj/.rbenv/bin:/usr/local/share/npm/bin:/usr/local/bin:/Library/Python/2.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
     /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -arch i386 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator7.0.sdk -L/Users/musalj/Library/Developer/Xcode/DerivedData/ObjectiveSugar-ayzdhqmmwtqgysdpznmovjlupqjy/Build/Products/Debug-iphonesimulator -F/Users/musalj/Library/Developer/Xcode/DerivedData/ObjectiveSugar-ayzdhqmmwtqgysdpznmovjlupqjy/Build/Products/Debug-iphonesimulator -filelist /Users/musalj/Library/Developer/Xcode/DerivedData/ObjectiveSugar-ayzdhqmmwtqgysdpznmovjlupqjy/Build/Intermediates/ObjectiveSugar.build/Debug-iphonesimulator/ObjectiveSugar.build/Objects-normal/i386/ObjectiveSugar.LinkFileList -Xlinker -objc_abi_version -Xlinker 2 -ObjC -fobjc-arc -fobjc-link-runtime -Xlinker -no_implicit_dylibs -mios-simulator-version-min=4.3 -framework UIKit -framework Foundation -framework CoreGraphics -lPods -Xlinker -dependency_info -Xlinker /Users/musalj/Library/Developer/Xcode/DerivedData/ObjectiveSugar-ayzdhqmmwtqgysdpznmovjlupqjy/Build/Intermediates/ObjectiveSugar.build/Debug-iphonesimulator/ObjectiveSugar.build/Objects-normal/i386/ObjectiveSugar_dependency_info.dat -o /Users/musalj/Library/Developer/Xcode/DerivedData/ObjectiveSugar-ayzdhqmmwtqgysdpznmovjlupqjy/Build/Products/Debug-iphonesimulator/ObjectiveSugar.app/ObjectiveSugar
 )
+SAMPLE_LD_RELATIVE = %Q(
+Ld ../Build/Products/Debug-iphonesimulator/ObjectiveSugar.app/ObjectiveSugar normal i386
+    cd /Users/musalj/code/OSS/ObjectiveSugar/Example
+    setenv IPHONEOS_DEPLOYMENT_TARGET 4.3
+    setenv PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Users/musalj/code/go/bin:/Users/musalj/.rbenv/shims:/Users/musalj/.rbenv/bin:/usr/local/share/npm/bin:/usr/local/bin:/Library/Python/2.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -arch i386 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator7.0.sdk -L/Users/musalj/Library/Developer/Xcode/DerivedData/ObjectiveSugar-ayzdhqmmwtqgysdpznmovjlupqjy/Build/Products/Debug-iphonesimulator -F/Users/musalj/Library/Developer/Xcode/DerivedData/ObjectiveSugar-ayzdhqmmwtqgysdpznmovjlupqjy/Build/Products/Debug-iphonesimulator -filelist /Users/musalj/Library/Developer/Xcode/DerivedData/ObjectiveSugar-ayzdhqmmwtqgysdpznmovjlupqjy/Build/Intermediates/ObjectiveSugar.build/Debug-iphonesimulator/ObjectiveSugar.build/Objects-normal/i386/ObjectiveSugar.LinkFileList -Xlinker -objc_abi_version -Xlinker 2 -ObjC -fobjc-arc -fobjc-link-runtime -Xlinker -no_implicit_dylibs -mios-simulator-version-min=4.3 -framework UIKit -framework Foundation -framework CoreGraphics -lPods -Xlinker -dependency_info -Xlinker /Users/musalj/Library/Developer/Xcode/DerivedData/ObjectiveSugar-ayzdhqmmwtqgysdpznmovjlupqjy/Build/Intermediates/ObjectiveSugar.build/Debug-iphonesimulator/ObjectiveSugar.build/Objects-normal/i386/ObjectiveSugar_dependency_info.dat -o /Users/musalj/Library/Developer/Xcode/DerivedData/ObjectiveSugar-ayzdhqmmwtqgysdpznmovjlupqjy/Build/Products/Debug-iphonesimulator/ObjectiveSugar.app/ObjectiveSugar
+).freeze
 SAMPLE_DSYM = %Q(
 GenerateDSYMFile /Users/musalj/Library/Developer/Xcode/DerivedData/ObjectiveSugar-ayzdhqmmwtqgysdpznmovjlupqjy/Build/Products/Debug-iphonesimulator/ObjectiveSugarTests.octest.dSYM /Users/musalj/Library/Developer/Xcode/DerivedData/ObjectiveSugar-ayzdhqmmwtqgysdpznmovjlupqjy/Build/Products/Debug-iphonesimulator/ObjectiveSugarTests.octest/ObjectiveSugarTests
     cd /Users/musalj/code/OSS/ObjectiveSugar/Example
@@ -474,6 +511,12 @@ AnalyzeShallow CocoaChip/CCChip8DisplayView.m
     setenv LANG en_US.US-ASCII
     /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch x86_64 -fmessage-length=107 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -fcolor-diagnostics -std=gnu99 -fobjc-arc -Wno-trigraphs -fpascal-strings -Os -Werror -Wmissing-field-initializers -Wmissing-prototypes -Wno-implicit-atomic-properties -Wno-receiver-is-weak -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wshadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wsign-compare -Wshorten-64-to-32 -Wpointer-sign -Wnewline-eof -Wno-selector -Wstrict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk -fasm-blocks -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -mmacosx-version-min=10.7 -g -fvisibility=hidden -Wno-sign-conversion -D__clang_analyzer__ -Xclang -analyzer-output=plist-multi-file -Xclang -analyzer-config -Xclang path-diagnostics-alternate=true -Xclang -analyzer-config -Xclang report-in-main-source-file=true -Xclang -analyzer-config -Xclang mode=shallow -Xclang -analyzer-checker -Xclang security.insecureAPI.UncheckedReturn -Xclang -analyzer-checker -Xclang security.insecureAPI.getpw -Xclang -analyzer-checker -Xclang security.insecureAPI.gets -Xclang -analyzer-checker -Xclang security.insecureAPI.mkstemp -Xclang -analyzer-checker -Xclang security.insecureAPI.mktemp -Xclang -analyzer-disable-checker -Xclang security.insecureAPI.rand -Xclang -analyzer-disable-checker -Xclang security.insecureAPI.strcpy -Xclang -analyzer-checker -Xclang security.insecureAPI.vfork -iquote /Users/dustin/Source/CocoaChip/build/CocoaChip.build/Release/CocoaChip.build/CocoaChip-generated-files.hmap -I/Users/dustin/Source/CocoaChip/build/CocoaChip.build/Release/CocoaChip.build/CocoaChip-own-target-headers.hmap -I/Users/dustin/Source/CocoaChip/build/CocoaChip.build/Release/CocoaChip.build/CocoaChip-all-target-headers.hmap -iquote /Users/dustin/Source/CocoaChip/build/CocoaChip.build/Release/CocoaChip.build/CocoaChip-project-headers.hmap -I/Users/dustin/Source/CocoaChip/build/Release/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/dustin/Source/CocoaChip/build/CocoaChip.build/Release/CocoaChip.build/DerivedSources/x86_64 -I/Users/dustin/Source/CocoaChip/build/CocoaChip.build/Release/CocoaChip.build/DerivedSources -F/Users/dustin/Source/CocoaChip/build/Release -include /var/folders/nn/s88k060x7016ccml2bc6f5_h0000gn/C/com.apple.DeveloperTools/5.0.2-5A3005/Xcode/SharedPrecompiledHeaders/CocoaChip-Prefix-dzmrdzscqkbvvrafvxsbjwbxtmlz/CocoaChip-Prefix.pch --analyze /Users/dustin/Source/CocoaChip/CocoaChip/CCChip8DisplayView.m -o /Users/dustin/Source/CocoaChip/build/CocoaChip.build/Release/CocoaChip.build/StaticAnalyzer/CocoaChip/CocoaChip/normal/x86_64/CCChip8DisplayView.plist
 )
+SAMPLE_ANALYZE_CPP = %Q(
+Analyze CocoaChip/CCChip8DisplayView.cpp
+    cd /Users/dustin/Source/CocoaChip
+    setenv LANG en_US.US-ASCII
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x objective-c -arch x86_64 -fmessage-length=107 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -fcolor-diagnostics -std=gnu99 -fobjc-arc -Wno-trigraphs -fpascal-strings -Os -Werror -Wmissing-field-initializers -Wmissing-prototypes -Wno-implicit-atomic-properties -Wno-receiver-is-weak -Wno-arc-repeated-use-of-weak -Wduplicate-method-match -Wmissing-braces -Wparentheses -Wswitch -Wunused-function -Wunused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wuninitialized -Wno-unknown-pragmas -Wshadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wsign-compare -Wshorten-64-to-32 -Wpointer-sign -Wnewline-eof -Wno-selector -Wstrict-selector-match -Wundeclared-selector -Wno-deprecated-implementations -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk -fasm-blocks -fstrict-aliasing -Wprotocol -Wdeprecated-declarations -mmacosx-version-min=10.7 -g -fvisibility=hidden -Wno-sign-conversion -D__clang_analyzer__ -Xclang -analyzer-output=plist-multi-file -Xclang -analyzer-config -Xclang path-diagnostics-alternate=true -Xclang -analyzer-config -Xclang report-in-main-source-file=true -Xclang -analyzer-checker -Xclang security.insecureAPI.UncheckedReturn -Xclang -analyzer-checker -Xclang security.insecureAPI.getpw -Xclang -analyzer-checker -Xclang security.insecureAPI.gets -Xclang -analyzer-checker -Xclang security.insecureAPI.mkstemp -Xclang -analyzer-checker -Xclang security.insecureAPI.mktemp -Xclang -analyzer-disable-checker -Xclang security.insecureAPI.rand -Xclang -analyzer-disable-checker -Xclang security.insecureAPI.strcpy -Xclang -analyzer-checker -Xclang security.insecureAPI.vfork -iquote /Users/dustin/Source/CocoaChip/build/CocoaChip.build/Release/CocoaChip.build/CocoaChip-generated-files.hmap -I/Users/dustin/Source/CocoaChip/build/CocoaChip.build/Release/CocoaChip.build/CocoaChip-own-target-headers.hmap -I/Users/dustin/Source/CocoaChip/build/CocoaChip.build/Release/CocoaChip.build/CocoaChip-all-target-headers.hmap -iquote /Users/dustin/Source/CocoaChip/build/CocoaChip.build/Release/CocoaChip.build/CocoaChip-project-headers.hmap -I/Users/dustin/Source/CocoaChip/build/Release/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/dustin/Source/CocoaChip/build/CocoaChip.build/Release/CocoaChip.build/DerivedSources/x86_64 -I/Users/dustin/Source/CocoaChip/build/CocoaChip.build/Release/CocoaChip.build/DerivedSources -F/Users/dustin/Source/CocoaChip/build/Release -include /var/folders/nn/s88k060x7016ccml2bc6f5_h0000gn/C/com.apple.DeveloperTools/5.0.2-5A3005/Xcode/SharedPrecompiledHeaders/CocoaChip-Prefix-cqqikmscxiepjgdcrgpysqicucyu/CocoaChip-Prefix.pch --analyze /Users/dustin/Source/CocoaChip/CocoaChip/CCChip8DisplayView.m -o /Users/dustin/Source/CocoaChip/build/CocoaChip.build/Release/CocoaChip.build/StaticAnalyzer/CocoaChip/CocoaChip/normal/x86_64/CCChip8DisplayView.plist
+).freeze
 SAMPLE_COMPILE_XIB = %Q(
 CompileXIB CocoaChip/en.lproj/MainMenu.xib
     cd /Users/dustin/Source/CocoaChip
@@ -586,6 +629,17 @@ SAMPLE_COMPILE_ERROR_WITH_TILDES = %Q(
             ~~ ^~~~~~~
 )
 
+SAMPLE_PROFILE_DOESNT_SUPPORT_CAPABILITY_ERROR = %Q(
+Provisioning profile "Profile Name" doesn't support the Push Notifications capability.
+)
+
+SAMPLE_PROFILE_DOESNT_INCLUDE_ENTITLEMENT_ERROR = %Q(
+Provisioning profile "Profile Name" doesn't include the aps-environment entitlement.
+)
+
+SAMPLE_CODE_SIGNING_IS_REQUIRED_ERROR = %Q(
+Code signing is required for product type 'Application' in SDK 'iOS 10.0'
+)
 
 ################################################################################
 # WARNINGS
@@ -598,4 +652,6 @@ SAMPLE_FORMAT_WARNING = %Q(
                          %d
 1 warning generated.
 )
+
+SAMPLE_WILL_NOT_BE_CODE_SIGNED = "FrameworkName will not be code signed because its settings don't specify a development team."
 
